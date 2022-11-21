@@ -3025,14 +3025,15 @@
     semver "7.3.4"
     tslib "^2.3.0"
 
-"@nrwl/devkit@14.7.17":
-  version "14.7.17"
-  resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-14.7.17.tgz#0dd914d0596e793264cd117c77bb1a3a0d9de2f2"
-  integrity sha512-flTV8BuC7oacWGHseoKsyOAYmWsMSP6iYGRjrCaV0MyRbDkNy0P07elXXFUW01er+l7x/awZYQR9/n/eNyqfXA==
+"@nrwl/devkit@15.1.1":
+  version "15.1.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-15.1.1.tgz#b8748796e1dc401ebea5df933aeccaa421d4208e"
+  integrity sha512-Dh26LjMh/BMmoOja2WSSVSAaVDI59qIg46dZmfU7fcu+Y4FFMor3PMAAo5QVbfLasbx4HG6vrvQlhuwWnXm4hw==
   dependencies:
     "@phenomnomnominal/tsquery" "4.1.1"
     ejs "^3.1.7"
     ignore "^5.0.4"
+    semver "7.3.4"
     tslib "^2.3.0"
 
 "@nrwl/eslint-plugin-nx@14.4.2":
@@ -12034,12 +12035,12 @@ next@12.2.3:
     "@next/swc-win32-ia32-msvc" "12.2.3"
     "@next/swc-win32-x64-msvc" "12.2.3"
 
-ngx-deploy-npm@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/ngx-deploy-npm/-/ngx-deploy-npm-4.3.1.tgz#70577f9c909aede59186e5301f7add6cc482844e"
-  integrity sha512-U1sIef5PwPUtXNXFzoBkYXYJ4+uqvpO9KUICzsaX5Tm8evAE0Pt6B9S69YaS4y5W1qGhPsMiPRFVCE5bLbL3jg==
+ngx-deploy-npm@^4.3.6:
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/ngx-deploy-npm/-/ngx-deploy-npm-4.3.6.tgz#aa2b1bf388a7d94592b73b7aa63eb5f9f395050b"
+  integrity sha512-1HTTXNWkEIpS7uYo0PqpC/CKRuwG2SfnMKJVOl2zOyAXn1ICjjC9uws9HOhFw7wqcYNo975ayrSWLq1LfvLFjA==
   dependencies:
-    "@nrwl/devkit" "14.7.17"
+    "@nrwl/devkit" "15.1.1"
 
 nice-napi@^1.0.2:
   version "1.0.2"
