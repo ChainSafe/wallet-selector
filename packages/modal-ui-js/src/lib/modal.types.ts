@@ -1,5 +1,6 @@
 import type { Wallet } from "@near-wallet-selector/core";
 import type { ModuleState } from "@near-wallet-selector/core";
+import type { Subscription } from "@near-wallet-selector/core";
 
 export type Theme = "dark" | "light" | "auto";
 
@@ -8,63 +9,79 @@ export interface ModalOptions {
   methodNames?: Array<string>;
   theme?: Theme;
   description?: string;
+  onHide?: (hideReason: "user-triggered" | "wallet-navigation") => void;
 }
+
+export type ModalHideReason = "user-triggered" | "wallet-navigation";
+
+export type ModalEvents = {
+  onHide: { hideReason: ModalHideReason };
+};
 
 export interface WalletSelectorModal {
   show(): void;
   hide(): void;
+  on<EventName extends keyof ModalEvents>(
+    eventName: EventName,
+    callback: (event: ModalEvents[EventName]) => void
+  ): Subscription;
+
+  off<EventName extends keyof ModalEvents>(
+    eventName: EventName,
+    callback: (event: ModalEvents[EventName]) => void
+  ): void;
 }
 
-export type AlertMessageModalRouteParams = {
+type AlertMessageModalRouteParams = {
   wallet: Wallet;
 };
 
-export type WalletOptionsModalRouteParams = {
+type WalletOptionsModalRouteParams = {
   wallet: Wallet;
 };
 
-export type DerivationPathModalRouteParams = {
+type DerivationPathModalRouteParams = {
   walletId: string;
 };
 
-export type WalletNotInstalledModalRouteParams = {
+type WalletNotInstalledModalRouteParams = {
   module: ModuleState;
 };
 
-export type WalletNetworkChangedModalRouteParams = {
+type WalletNetworkChangedModalRouteParams = {
   wallet: Wallet;
 };
 
-export type WalletConnectingModalRouteParams = {
+type WalletConnectingModalRouteParams = {
   wallet: Wallet;
 };
 
-export type AlertMessageModalRoute = {
+type AlertMessageModalRoute = {
   name: "AlertMessage";
   params?: AlertMessageModalRouteParams;
 };
 
-export type WalletOptionsModalRoute = {
+type WalletOptionsModalRoute = {
   name: "WalletOptions";
   params?: WalletOptionsModalRouteParams;
 };
 
-export type DerivationPathModalRoute = {
+type DerivationPathModalRoute = {
   name: "DerivationPath";
   params: DerivationPathModalRouteParams;
 };
 
-export type WalletNotInstalledModalRoute = {
+type WalletNotInstalledModalRoute = {
   name: "WalletNotInstalled";
   params?: WalletNotInstalledModalRouteParams;
 };
 
-export type WalletNetworkChangedModalRoute = {
+type WalletNetworkChangedModalRoute = {
   name: "WalletNetworkChanged";
   params?: WalletNetworkChangedModalRouteParams;
 };
 
-export type WalletConnectingModalRoute = {
+type WalletConnectingModalRoute = {
   name: "WalletConnecting";
   params?: WalletConnectingModalRouteParams;
 };

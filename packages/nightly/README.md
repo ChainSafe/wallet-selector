@@ -1,7 +1,7 @@
 # @near-wallet-selector/nightly
 
 
-This is the [Nightly](https://www.nightly.app) package for NEAR Wallet Selector.
+This is the [Nightly](https://wallet.nightly.app/) package for NEAR Wallet Selector.
 
 ## Installation and Usage
 
@@ -9,10 +9,10 @@ The easiest way to use this package is to install it from the NPM registry, this
 
 ```bash
 # Using Yarn
-yarn add near-api-js@^0.44.2
+yarn add near-api-js
 
 # Using NPM.
-npm install near-api-js@^0.44.2
+npm install near-api-js
 ```
 
 ```bash

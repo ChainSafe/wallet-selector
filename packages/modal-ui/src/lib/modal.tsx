@@ -4,6 +4,8 @@ import type { WalletSelector } from "@near-wallet-selector/core";
 
 import type { WalletSelectorModal, ModalOptions } from "./modal.types";
 import { Modal } from "./components/Modal";
+import { EventEmitter } from "@near-wallet-selector/core";
+import type { ModalEvents } from "./modal.types";
 
 const MODAL_ELEMENT_ID = "near-wallet-selector-modal";
 
@@ -15,10 +17,13 @@ export const setupModal = (
 ): WalletSelectorModal => {
   const el = document.createElement("div");
   el.id = MODAL_ELEMENT_ID;
-  document.body.appendChild(el);
+  if (!document.getElementById(MODAL_ELEMENT_ID)) {
+    document.body.appendChild(el);
+  }
 
   const container = document.getElementById(MODAL_ELEMENT_ID);
   const root = createRoot(container!);
+  const emitter = new EventEmitter<ModalEvents>();
 
   const render = (visible = false) => {
     root.render(
@@ -27,11 +32,10 @@ export const setupModal = (
         options={options}
         visible={visible}
         hide={() => render(false)}
+        emitter={emitter}
       />
     );
   };
-
-  render();
 
   if (!modalInstance) {
     modalInstance = {
@@ -40,6 +44,12 @@ export const setupModal = (
       },
       hide: () => {
         render(false);
+      },
+      on: (eventName, callback) => {
+        return emitter.on(eventName, callback);
+      },
+      off: (eventName, callback) => {
+        emitter.off(eventName, callback);
       },
     };
   }

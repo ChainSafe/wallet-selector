@@ -13,7 +13,13 @@ import type { BrowserWallet } from "../../../core/src/lib/wallet";
 
 const createMyNearWallet = async (deps: MockWalletDependencies = {}) => {
   const walletConnection = mock<WalletConnection>();
-  const account = mock<ConnectedWalletAccount>();
+  const account = mock<ConnectedWalletAccount>({
+    connection: {
+      signer: {
+        getPublicKey: jest.fn().mockReturnValue(""),
+      },
+    },
+  });
 
   jest.mock("near-api-js", () => {
     const module = jest.requireActual("near-api-js");
@@ -84,7 +90,9 @@ describe("getAccounts", () => {
     const result = await wallet.getAccounts();
 
     expect(walletConnection.getAccountId).toHaveBeenCalled();
-    expect(result).toEqual([{ accountId: "test-account.testnet" }]);
+    expect(result).toEqual([
+      { accountId: "test-account.testnet", publicKey: "" },
+    ]);
   });
 });
 
@@ -109,5 +117,18 @@ describe("signAndSendTransaction", () => {
       receiverId: "guest-book.testnet",
     });
     expect(result).toEqual(null);
+  });
+});
+
+describe("buildImportAccountsUrl", () => {
+  it("returns import url", async () => {
+    const { wallet } = await createMyNearWallet();
+
+    expect(typeof wallet.buildImportAccountsUrl).toBe("function");
+
+    // @ts-ignore
+    expect(wallet?.buildImportAccountsUrl()).toEqual(
+      "https://testnet.mynearwallet.com/batch-import"
+    );
   });
 });

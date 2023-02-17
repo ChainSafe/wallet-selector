@@ -6,7 +6,6 @@ import type {
   FunctionCallAction,
   WalletBehaviourFactory,
 } from "@near-wallet-selector/core";
-import { waitFor } from "@near-wallet-selector/core";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { nethIcon } from "../assets/icons";
 import {
@@ -19,6 +18,7 @@ import {
   initConnection,
   NETH_SITE_URL,
 } from "./neth-lib";
+import isMobile from "is-mobile";
 export { initConnection } from "./neth-lib";
 
 declare global {
@@ -148,12 +148,22 @@ const Neth: WalletBehaviourFactory<InjectedWallet> = async ({
 
     async verifyOwner({ message }) {
       logger.log("NETH:verifyOwner", { message });
-      verifyOwner({ message, provider, account: null });
+      return verifyOwner({ message, provider, account: null });
     },
 
     async getAccounts() {
-      const { accountId } = await getNear();
-      return [{ accountId }];
+      const { accountId, account } = await getNear();
+      return [
+        {
+          accountId,
+          publicKey: (
+            await account.connection.signer.getPublicKey(
+              account.accountId,
+              options.network.networkId
+            )
+          ).toString(),
+        },
+      ];
     },
 
     signAndSendTransaction: async ({ receiverId, actions }) =>
@@ -176,9 +186,12 @@ export function setupNeth({
     customGas = gas;
     bundle = _bundle;
 
+    const mobile = isMobile();
     const installed = await isInstalled();
 
-    await waitFor(() => !!isSignedIn(), { timeout: 300 }).catch(() => false);
+    if (mobile) {
+      return null;
+    }
 
     return {
       id: "neth",

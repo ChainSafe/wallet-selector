@@ -1,6 +1,6 @@
 # @near-wallet-selector/welldone
 
-This is the [Welldone](https://chrome.google.com/webstore/detail/welldone-wallet-for-multi/bmkakpenjmcpfhhjadflneinmhboecjf) package for NEAR Wallet Selector.
+This is the [WELLDONE](https://chrome.google.com/webstore/detail/welldone-wallet-for-multi/bmkakpenjmcpfhhjadflneinmhboecjf) package for NEAR Wallet Selector.
 
 ## Installation and Usage
 
@@ -8,10 +8,10 @@ The easiest way to use this package is to install it from the NPM registry, this
 
 ```bash
 # Using Yarn
-yarn add near-api-js@^0.44.2
+yarn add near-api-js
 
 # Using NPM.
-npm install near-api-js@^0.44.2
+npm install near-api-js
 ```
 ```bash
 # Using Yarn

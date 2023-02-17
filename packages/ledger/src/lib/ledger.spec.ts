@@ -5,6 +5,7 @@ import { mockWallet } from "../../../core/src/lib/testUtils";
 import type { HardwareWallet, Transaction } from "../../../core/src/lib/wallet";
 import type { ProviderService } from "../../../core/src/lib/services";
 import type { LedgerClient } from "./ledger-client";
+import { BN } from "bn.js";
 
 const createLedgerWallet = async () => {
   const publicKey = "GF7tLvSzcxX4EtrMFtGvGTb2yUj2DhL8hWzc97BwUkyC";
@@ -44,7 +45,7 @@ const createLedgerWallet = async () => {
   });
 
   provider.viewAccessKey.mockResolvedValue({
-    nonce: 0,
+    nonce: new BN(0),
     permission: "FullAccess",
     block_height: 0,
     block_hash: "block_hash",
@@ -96,7 +97,7 @@ describe("getAccounts", () => {
       contractId: "guest-book.testnet",
     });
     const result = await wallet.getAccounts();
-    expect(result).toEqual([{ accountId }]);
+    expect(result).toEqual([{ accountId, publicKey: "ed25519:" + publicKey }]);
   });
   it("returns empty list because not connected", async () => {
     const { wallet } = await createLedgerWallet();

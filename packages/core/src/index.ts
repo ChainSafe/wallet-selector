@@ -13,6 +13,9 @@ export type {
   JsonStorageService,
   EventEmitterService,
 } from "./lib/services";
+
+export { EventEmitter } from "./lib/services";
+
 export type { Optional } from "./lib/utils.types";
 
 export type {
@@ -61,6 +64,7 @@ export type {
   DeleteKeyAction,
   DeleteAccountAction,
   AddKeyPermission,
+  AccountImportData,
 } from "./lib/wallet";
 
 export type { FinalExecutionOutcome } from "near-api-js/lib/providers";

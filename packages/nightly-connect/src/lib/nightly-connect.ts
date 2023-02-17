@@ -26,7 +26,7 @@ import { signTransactions } from "@near-wallet-selector/wallet-utils";
 import type { FinalExecutionOutcome } from "near-api-js/lib/providers";
 import icon from "./icon";
 
-export interface NightlyConnectParams {
+interface NightlyConnectParams {
   appMetadata: AppMetadata;
   url?: string;
   timeout?: number;
@@ -85,6 +85,7 @@ const NightlyConnect: WalletBehaviourFactory<
 
       try {
         const tx = nearTransactions.Transaction.decode(Buffer.from(message));
+        // @ts-ignore
         const signedTx = await _state.client!.signTransaction(tx);
 
         return {
@@ -129,7 +130,10 @@ const NightlyConnect: WalletBehaviourFactory<
   return {
     async signIn({ qrCodeModal = true }) {
       return new Promise((resolve, reject) => {
-        const existingAccounts = getAccounts();
+        const existingAccounts = getAccounts().map((x) => ({
+          accountId: x.accountId,
+          publicKey: x.publicKey.toString(),
+        }));
 
         if (existingAccounts.length) {
           return resolve(existingAccounts);
@@ -157,7 +161,12 @@ const NightlyConnect: WalletBehaviourFactory<
               _state.accounts.push(account);
               _state.modal.onClose = undefined;
               _state.modal.closeModal();
-              resolve(getAccounts());
+              resolve(
+                getAccounts().map((x) => ({
+                  accountId: x.accountId,
+                  publicKey: x.publicKey.toString(),
+                }))
+              );
             },
           }).then((client) => {
             client.ws.onclose = () => {
@@ -178,7 +187,12 @@ const NightlyConnect: WalletBehaviourFactory<
                 publicKey: utils.PublicKey.from(persistedPubkey),
               });
               _state.modal.onClose = undefined;
-              resolve(getAccounts());
+              resolve(
+                getAccounts().map((x) => ({
+                  accountId: x.accountId,
+                  publicKey: x.publicKey.toString(),
+                }))
+              );
             } else {
               if (qrCodeModal) {
                 _state.modal.openModal(client.sessionId, NETWORK.NEAR);
@@ -201,7 +215,10 @@ const NightlyConnect: WalletBehaviourFactory<
     signOut,
 
     async getAccounts() {
-      return getAccounts().map(({ accountId }) => ({ accountId }));
+      return getAccounts().map((account) => ({
+        accountId: account.accountId,
+        publicKey: account.publicKey.toString(),
+      }));
     },
 
     async verifyOwner({ message }) {

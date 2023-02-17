@@ -1,26 +1,10 @@
+import type { AccountImportData } from "@near-wallet-selector/core";
 import type {
   SignedTransaction as NearSignedTransaction,
   Transaction as NearTransaction,
 } from "near-api-js/lib/transaction";
 import type { PublicKey as NearPublicKey } from "near-api-js/lib/utils";
-export interface NearAccount {
-  accountId: string;
-  publicKey: NearPublicKey;
-}
-export interface WalletAdapter {
-  account: NearAccount;
-  connected: boolean;
-  signTransaction: (
-    transaction: NearTransaction
-  ) => Promise<NearSignedTransaction>;
-  signAllTransactions: (
-    transaction: Array<NearTransaction>
-  ) => Promise<Array<NearSignedTransaction>>;
-  connect: (onDisconnect?: () => void) => Promise<NearAccount>;
-  disconnect: () => Promise<void>;
-}
-
-export interface NightlyAccount {
+interface NightlyAccount {
   accountId: string;
   publicKey: NearPublicKey;
 }
@@ -34,10 +18,11 @@ export interface NearNightly {
     transaction: Array<NearTransaction>
   ) => Promise<Array<NearSignedTransaction>>;
   connect: (
-    onDisconnect?: () => void,
+    onAccountChange?: (acc?: NightlyAccount) => void,
     eagerConnect?: boolean
   ) => Promise<NightlyAccount>;
   disconnect: () => Promise<void>;
+  importWalletsNear: (privKeys: Array<AccountImportData>) => Promise<void>;
 }
 export interface InjectedNightly {
   near: NearNightly;
